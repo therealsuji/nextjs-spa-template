@@ -1,8 +1,21 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { useEffect, useState } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function ClientSideRendering({ children }: any) {
+  const [csrReady, setCsrReady] = useState(false);
+  useEffect(() => {
+    setCsrReady(true);
+  }, []);
+  return csrReady ? children : null;
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ClientSideRendering>
+      <Component {...pageProps} />
+    </ClientSideRendering>
+  );
+}
+
+export default MyApp;
